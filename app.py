@@ -1,21 +1,21 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from flask_heroku import Heroku
-from environs import Env
+# from flask_heroku import Heroku
+# from environs import Env
 from flask_cors import CORS
 import os
 
 app = Flask(__name__)
 CORS(app)
-heroku = Heroku(app)
-env = Env()
-env.read_env()
-DATABASE_URL= env("DATABASE_URL")
+# heroku = Heroku(app)
+# env = Env()
+# env.read_env()
+# DATABASE_URL= env("DATABASE_URL")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "app.sqlite")
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "app.sqlite")
+# app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -61,6 +61,14 @@ def get_products():
 
   return jsonify(result)
 
+
+# Endpoint for querying a single donut
+@app.route("/product/<id>", methods=["GET"])
+def get_product(id):
+    product = Product.query.get(id)
+    return product_schema.jsonify(product)
+
+
 # POST
 @app.route("/product", methods=["POST"])
 def add_product():
@@ -87,27 +95,27 @@ def add_product():
 # PUT/PATCH by ID
 @app.route("/product/<id>", methods=["PATCH"])
 def update_product(id):
-product = Product.query.get(id)
-title = request.json['title']
-price = request.json['price']
-category = request.json['category']
-prodimg_url = request.json['prodimg_url']
-inCart = request.json["inCart"]
-total = request.json["total"]
-count = request.json["count"]
-description = request.json["description"]
+    product = Product.query.get(id)
+    title = request.json['title']
+    price = request.json['price']
+    category = request.json['category']
+    prodimg_url = request.json['prodimg_url']
+    inCart = request.json["inCart"]
+    total = request.json["total"]
+    count = request.json["count"]
+    description = request.json["description"]
 
-product.title = title
-product.price = price
-product.category = category
-product.prodimg_url = prodimg_url
-product.inCart = inCart
-product.total = total
-product.count = count
-product.description = description
+    product.title = title
+    product.price = price
+    product.category = category
+    product.prodimg_url = prodimg_url
+    product.inCart = inCart
+    product.total = total
+    product.count = count
+    product.description = description
 
-db.session.commit()
-return product_schema.jsonify(product)
+    db.session.commit()
+    return product_schema.jsonify(product)
 
 # DELETE
 @app.route("/product/<id>", methods=["DELETE"])
