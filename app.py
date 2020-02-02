@@ -93,13 +93,13 @@ def add_product():
 
 
 # PUT/PATCH by ID
-@app.route("/product/<id>", methods=["PATCH"])
+@app.route("/product/<id>", methods=["PUT"])
 def update_product(id):
     product = Product.query.get(id)
     title = request.json['title']
     price = request.json['price']
     category = request.json['category']
-    prodimg_url = request.json['prodimg_url']
+    prodimg = request.json['prodimg']
     inCart = request.json["inCart"]
     total = request.json["total"]
     count = request.json["count"]
@@ -108,7 +108,7 @@ def update_product(id):
     product.title = title
     product.price = price
     product.category = category
-    product.prodimg_url = prodimg_url
+    product.prodimg = prodimg
     product.inCart = inCart
     product.total = total
     product.count = count
@@ -116,6 +116,7 @@ def update_product(id):
 
     db.session.commit()
     return product_schema.jsonify(product)
+
 
 # DELETE
 @app.route("/product/<id>", methods=["DELETE"])
