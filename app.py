@@ -118,7 +118,15 @@ def update_product(id):
     db.session.commit()
     return product_schema.jsonify(product)
 
+@app.route("/inCart/<id>", methods=["PATCH"])
+def update_cart(id):
+    product = Product.query.get(id)
+    inCart = request.json["inCart"]
 
+    product.inCart = inCart
+
+    db.session.commit()
+    return product_schema.jsonify(product)
 # DELETE
 @app.route("/product/<id>", methods=["DELETE"])
 def delete_product(id):
