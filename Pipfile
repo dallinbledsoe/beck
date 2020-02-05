@@ -18,7 +18,6 @@ psycopg2-binary = "*"
 environs = "*"
 flask-heroku = "*"
 pylint = "*"
-cors = "*"
 
 [requires]
 python_version = "3.7"
