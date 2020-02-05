@@ -94,7 +94,7 @@ def add_product():
 
 
 # PUT/PATCH by ID
-@app.route("/product/<id>", methods=["PATCH"])
+@app.route("/product/<id>", methods=["PUT"])
 def update_product(id):
     product = Product.query.get(id)
     title = request.json['title']
