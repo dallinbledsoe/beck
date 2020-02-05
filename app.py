@@ -13,6 +13,7 @@ env = Env()
 env.read_env()
 DATABASE_URL= env("DATABASE_URL")
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "app.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
@@ -93,7 +94,7 @@ def add_product():
 
 
 # PUT/PATCH by ID
-@app.route("/product/<id>", methods=["PUT"])
+@app.route("/product/<id>", methods=["PATCH"])
 def update_product(id):
     product = Product.query.get(id)
     title = request.json['title']
