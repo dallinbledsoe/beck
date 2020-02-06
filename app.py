@@ -122,11 +122,11 @@ def update_product(id):
 def update_cart(id):
     product = Product.query.get(id)
     inCart = request.json["inCart"]
-    total = request.json["total"]
+    price = request.json["price"]
     count = request.json["count"]
 
     product.inCart = inCart
-    product.total = total
+    product.price = price
     product.count = count
 
     db.session.commit()
